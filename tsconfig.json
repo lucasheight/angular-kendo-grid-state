@@ -17,7 +17,13 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "kendo-grid-state": [
+        "dist/kendo-grid-state/kendo-grid-state",
+        "dist/kendo-grid-state"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
