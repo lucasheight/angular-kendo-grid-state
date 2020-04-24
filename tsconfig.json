@@ -22,6 +22,17 @@
       "kendo-grid-state": [
         "dist/kendo-grid-state/kendo-grid-state",
         "dist/kendo-grid-state"
+      ],
+      "kendo-grid-state/*": [
+        "dist/kendo-grid-state/*"
+      ],
+      "test": [
+        "dist/test/test",
+        "dist/test"
+      ],
+      "the-great-lib": [
+        "dist/the-great-lib/the-great-lib",
+        "dist/the-great-lib"
       ]
     }
   },
