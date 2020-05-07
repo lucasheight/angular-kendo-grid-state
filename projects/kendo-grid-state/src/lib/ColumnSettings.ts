@@ -3,7 +3,7 @@ export interface IColumnSettings {
   title?: string;
   filter?: "string" | "numeric" | "date" | "boolean";
   editor?: "string" | "numeric" | "date" | "boolean";
-  format?: string;
+  format?: string | object;
   width?: number;
   _width?: number;
   filterable?: boolean;
@@ -22,7 +22,7 @@ export class ColumnSettings implements IColumnSettings {
   filterable? = true;
   filter?: "string" | "numeric" | "date" | "boolean";
   editor?: "string" | "numeric" | "date" | "boolean";
-  format?: string;
+  format?: string |object;
   width?: number;
   _width?: number;
   orderIndex?: number;
