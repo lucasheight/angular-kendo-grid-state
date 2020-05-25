@@ -145,6 +145,7 @@ Configure the grid attributes for the managed states. Config the columnVisibilit
       kendoGridCellTemplate
       let-dataItem
     >
+    {{dataItem.ProductId}} - {{dataItem.ProductName}}
     </ng-template>
   </kendo-grid-column>
 </kendo-grid>
