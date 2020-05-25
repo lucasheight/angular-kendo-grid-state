@@ -9,15 +9,7 @@ import {
 export const GRID_STATE = new InjectionToken<GridSettings>("grid.settings");
 @Injectable()
 export class GridStateService {
-  //private storage: Storage;
   constructor(@Inject(GRID_STATE) private settings: GridSettings) {
-    // if (settings.storage == GridStorageType.Local) {
-    //   this.storage = localStorage;
-    // }
-    // else {
-    //   this.storage = sessionStorage;
-    // }
-
     //check if exists, if not store default settings
     if (this.settings.storage.getItem(this.settings.key) === null) {
       this.settings.storage.setItem(this.settings.key, JSON.stringify(this.settings));

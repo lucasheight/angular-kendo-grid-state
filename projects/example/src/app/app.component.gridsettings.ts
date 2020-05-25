@@ -1,4 +1,7 @@
-import { GridSettings } from "../../../kendo-grid-state/src/public-api";
+import {
+  GridSettings,
+  ColumnSettings,
+} from "../../../kendo-grid-state/src/public-api";
 
 export const appComponentGridSettings: GridSettings = {
   key: "exampleAppGridSettings",
@@ -17,12 +20,12 @@ export const appComponentGridSettings: GridSettings = {
       hidden: true,
       filterable: false,
     },
-    {
+    new ColumnSettings({
       field: "ProductName",
       title: "Product Name",
       editable: true,
       filterable: true,
-    },
+    }),
     {
       field: "SupplierID",
       title: "Supplier",

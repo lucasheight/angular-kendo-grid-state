@@ -5,7 +5,6 @@ export interface IColumnSettings {
   editor?: "string" | "numeric" | "date" | "boolean";
   format?: string | object;
   width?: number;
-  _width?: number;
   filterable?: boolean;
   orderIndex?: number;
   media?: string;
@@ -24,7 +23,6 @@ export class ColumnSettings implements IColumnSettings {
   editor?: "string" | "numeric" | "date" | "boolean";
   format?: string |object;
   width?: number;
-  _width?: number;
   orderIndex?: number;
   media?: string;
   style?: object;
