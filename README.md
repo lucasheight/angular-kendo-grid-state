@@ -1,3 +1,4 @@
+[![npm version](https://badge.fury.io/js/%40lucasheight%2Fkendo-grid-state.svg)](https://badge.fury.io/js/%40lucasheight%2Fkendo-grid-state)
 # Angular kendo-grid-State
 
 ## Purpose
