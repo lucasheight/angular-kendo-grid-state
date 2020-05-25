@@ -19,7 +19,7 @@ Install the Angular library with NPM:
 
 #### Configure the grid and column settings
 
-An example project is included in source [here](./projects/example)
+An example project is included in source [here](./projects/example). To view and edit on StackBlitz https://stackblitz.com/edit/angular-kendo-grid-state
 
 - Create an object that implements GridSettings.
 - Assign unique key for the state.
@@ -151,3 +151,5 @@ Configure the grid attributes for the managed states. Config the columnVisibilit
   </kendo-grid-column>
 </kendo-grid>
 ```
+## Demo
+https://angular-kendo-grid-state.stackblitz.io
