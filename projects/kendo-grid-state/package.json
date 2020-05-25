@@ -1,10 +1,23 @@
 {
   "name": "@lucasheight/kendo-grid-state",
-  "version": "0.0.8",
+  "version": "0.0.10",
+  "description": "A helper library that implements a service to manage grid state during session or between sessions for Progress Kendo UI for Angular Grid.",
+  "keywords": [
+    "angular",
+    "kendo",
+    "kendo-grid",
+    "state",
+    "telerik",
+    "progress"
+  ],
+  "homepage": "https://github.com/lucasheight/angular-kendo-grid-state",
+  "bugs": {
+    "url": "https://github.com/lucasheight/angular-kendo-grid-state/issues"
+  },
+  "license": "MIT",
   "author": {
     "name": "Lynden Garrett",
-    "url": "https://github.com/lucasheight",
-    "email": "lyndengarrett@gmail.com"
+    "url": "https://github.com/lucasheight"
   },
   "peerDependencies": {
     "@angular/common": "^9.0.7",
