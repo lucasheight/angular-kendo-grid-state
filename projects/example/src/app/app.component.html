@@ -12,5 +12,12 @@
   (columnVisibilityChange)="gridStateService.onVisibilityChange($event)">
   <kendo-grid-column *ngFor="let col of gridSettings.columns" [title]="col.title" [field]="col.field"
     [hidden]="col.hidden===undefined?false:col.hidden" [filterable]="col.filterable"
-    [editable]="col.editable===undefined?true:col.editable"></kendo-grid-column>
+    [editable]="col.editable===undefined?true:col.editable">
+   <ng-template
+      *ngIf="col.field==='ProductID'"
+      kendoGridCellTemplate
+      let-dataItem>
+    {{dataItem.ProductID}} - {{dataItem.ProductName}}
+    </ng-template>
+  </kendo-grid-column>
 </kendo-grid>
