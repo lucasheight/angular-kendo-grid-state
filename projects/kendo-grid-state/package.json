@@ -15,6 +15,10 @@
     "url": "https://github.com/lucasheight/angular-kendo-grid-state/issues"
   },
   "license": "MIT",
+  "repository": {
+    "url": "https://github.com/lucasheight/angular-kendo-grid-state.git",
+    "type": "git"
+  },
   "author": {
     "name": "Lynden Garrett",
     "url": "https://github.com/lucasheight"
