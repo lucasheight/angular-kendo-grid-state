@@ -1,6 +1,6 @@
 <h1>Northwind Products</h1>
 
-<kendo-grid #grid kendoRippleContainer [data]="data$ |async" [pageSize]="gridSettings.state.take" [pageable]="{
+<kendo-grid #grid [data]="data$ |async" [pageSize]="gridSettings.state.take" [pageable]="{
   buttonCount:5,
   info:true,
   type:'numeric',

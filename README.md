@@ -111,7 +111,6 @@ Configure the grid attributes for the managed states. Config the columnVisibilit
 
 <kendo-grid
   #grid
-  kendoRippleContainer
   [data]="data$ |async"
   [pageSize]="gridSettings.state.take"
   [pageable]="{
