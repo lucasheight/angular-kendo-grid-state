@@ -4,7 +4,7 @@ import {
   DataStateChangeEvent,
   GridDataResult,
 } from "@progress/kendo-angular-grid";
-import { GridSettings, GRID_STATE, GridStateService } from "kendo-grid-state";
+import { GridSettings, GRID_STATE, GridStateService } from "../../../kendo-grid-state/src/public-api"; // "kendo-grid-state";
 import { appComponentGridSettings } from "./app.component.gridsettings";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
