@@ -21,7 +21,7 @@ export class ColumnSettings implements IColumnSettings {
   filterable? = true;
   filter?: "string" | "numeric" | "date" | "boolean";
   editor?: "string" | "numeric" | "date" | "boolean";
-  format?: string |object;
+  format?: string | object;
   width?: number;
   orderIndex?: number;
   media?: string;

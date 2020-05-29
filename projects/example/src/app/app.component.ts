@@ -4,11 +4,19 @@ import {
   DataStateChangeEvent,
   GridDataResult,
 } from "@progress/kendo-angular-grid";
-import { GridSettings, GRID_STATE, GridStateService } from "../../../kendo-grid-state/src/public-api"; // "kendo-grid-state";
+import {
+  GridSettings,
+  GRID_STATE,
+  GridStateService,
+} from "../../../kendo-grid-state/src/public-api"; // "kendo-grid-state";
 import { appComponentGridSettings } from "./app.component.gridsettings";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { toODataString } from "@progress/kendo-data-query";
+import {
+  toODataString,
+  State,
+  CompositeFilterDescriptor,
+} from "@progress/kendo-data-query";
 
 @Component({
   selector: "app-root",
@@ -24,12 +32,19 @@ export class AppComponent implements OnInit {
   loading: boolean = false;
   gridSettings: GridSettings;
   data$: Observable<GridDataResult>;
+  filterState: CompositeFilterDescriptor;
   constructor(
     private service: AppService,
     public gridStateService: GridStateService
   ) {
     this.gridSettings = gridStateService.get();
+    this.filterState = this.gridSettings.state.filter;
   }
+  onGotState = (e: State): void => {
+    console.log("gotState", e);
+    this.onStateChange(e as DataStateChangeEvent);
+    //this.onStateChange(this.gridSettings.state as DataStateChangeEvent);
+  };
 
   ngOnInit(): void {
     this.data$ = this.service.state$.pipe(
@@ -38,15 +53,15 @@ export class AppComponent implements OnInit {
       )
     );
     this.service.complete = () => {
-      this.loading = false;
+      // this.loading = false;
     };
-    this.onStateChange(this.gridSettings.state as DataStateChangeEvent);
+    //this.onStateChange(this.gridSettings.state as DataStateChangeEvent);
   }
   public onStateChange = (e: DataStateChangeEvent): void => {
-    this.loading = true;
+    // this.loading = true;
 
     this.gridSettings.state = e;
-    this.gridStateService.set(this.gridSettings);
+    // this.gridStateService.set(this.gridSettings);
     this.service.query(toODataString(this.gridSettings.state));
   };
 }

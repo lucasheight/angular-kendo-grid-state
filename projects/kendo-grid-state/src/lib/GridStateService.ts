@@ -75,7 +75,7 @@ export class GridStateService {
       return acc;
     }, []);
 
-    let visibleCols: ColumnSettings[] = existing.columns.filter(
+    const visibleCols: ColumnSettings[] = existing.columns.filter(
       (f, idx) => f.hidden === undefined || f.hidden === false
     );
 
@@ -96,10 +96,10 @@ export class GridStateService {
     const existing = this.get();
     //find the column
     e.forEach((e) => {
-      let found = existing.columns.find(
+      const found = existing.columns.find(
         (f) => f.field === (e.column as any).field
       );
-      if(found){
+      if (found) {
         found.width = e.newWidth;
       }
     });

@@ -1,21 +1,22 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { NgModule } from "@angular/core";
 import { GridModule } from "@progress/kendo-angular-grid";
-import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
+import { AppComponent } from "./app.component";
+import { HttpClientModule } from "@angular/common/http";
+import { CommonModule } from "@angular/common";
+import { GridStateDirective } from "./app.directive.grid";
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent, GridStateDirective],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     CommonModule,
     HttpClientModule,
-    GridModule
+    GridModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
