@@ -69,3 +69,4 @@ In the component handle the `stateReady` event.
   };
 ```
 
+Thanks it!

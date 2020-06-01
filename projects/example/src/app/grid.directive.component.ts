@@ -1,16 +1,10 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
 import {
   GridDataResult,
   DataStateChangeEvent,
 } from "@progress/kendo-angular-grid";
-import {
-  State,
-  toODataString,
-  process,
-  DataResult,
-  groupBy,
-} from "@progress/kendo-data-query";
+import { State, toODataString, groupBy } from "@progress/kendo-data-query";
 import { map } from "rxjs/operators";
 import { AppService } from "./app.service";
 
@@ -18,7 +12,7 @@ import { AppService } from "./app.service";
   selector: "gridDirectiveCompoment",
   templateUrl: "./grid.directive.component.html",
 })
-export class GridDirectiveComponent {
+export class GridDirectiveComponent implements OnInit {
   title: string = "example grid";
   loading: boolean = false;
   gridState: State = { skip: 0, take: 5, group: [{ field: "SupplierID" }] };

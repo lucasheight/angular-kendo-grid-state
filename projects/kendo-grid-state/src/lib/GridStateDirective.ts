@@ -8,7 +8,11 @@ import {
   QueryList,
   AfterContentInit,
 } from "@angular/core";
-import { GridComponent, ColumnComponent } from "@progress/kendo-angular-grid";
+import {
+  GridComponent,
+  ColumnComponent,
+  RowArgs,
+} from "@progress/kendo-angular-grid";
 import {
   CompositeFilterDescriptor,
   State,
@@ -19,12 +23,17 @@ import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { Column } from "./ColumnSettings";
 import { IGridState } from "./GridSettings";
-
+type IsDetailExpanded = (args: RowArgs) => boolean;
 @Directive({
   selector: "[gridState]",
 })
 export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
-  _destroy$ = new Subject<void>();
+  private destroy$ = new Subject<void>();
+  private expandedRows: boolean[] = [];
+  rowExpanded = (args: RowArgs): boolean => {
+    console.log("isExpanded", args.index);
+    return this.expandedRows[args.index];
+  };
   @Output() stateReady: EventEmitter<State> = new EventEmitter();
   @Input() filter: CompositeFilterDescriptor;
   @Output() filterChange: EventEmitter<
@@ -45,9 +54,10 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
   @Input() take?: number = 10;
   @Output() takeChange: EventEmitter<number> = new EventEmitter();
   @Input() storage: Storage = sessionStorage;
-  constructor(private grid: GridComponent) {
-    //const
-    //this.gridState(initState);
+  constructor(private grid: GridComponent) {}
+  expander(args: RowArgs): boolean {
+    console.log(args.index);
+    return this.expandedRows[args.index];
   }
   private get key() {
     const key: string = this.gridState.toString();
@@ -61,6 +71,7 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
   public set state(val: IGridState) {
     this.storage.setItem(this.key, JSON.stringify(val));
   }
+
   ngOnInit(): void {
     if (this.gridState == undefined || this.gridState == "") {
       throw "gridState has not been set, this is required to be unique for each grid as it is used as the storage key";
@@ -88,8 +99,9 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
       this.filterChange.emit(merged.filter);
       this.stateReady.emit(merged);
     });
+    // handle the columnVisibilityChange Event
     this.grid.columnVisibilityChange
-      .pipe(takeUntil(this._destroy$))
+      .pipe(takeUntil(this.destroy$))
       .subscribe((s) => {
         const existing = this.state;
         s.columns.forEach((col) => {
@@ -99,16 +111,12 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
         });
         this.state = existing;
       });
-    // this.grid.columns.changes.pipe(takeUntil(this._destroy$)).subscribe((s) => {
-    //   console.log("columns", s);
-    // });
-    this.grid.dataStateChange.pipe(takeUntil(this._destroy$)).subscribe((s) => {
-      console.log("dataStateChange", s);
+    // handle the dataStateChange event
+    this.grid.dataStateChange.pipe(takeUntil(this.destroy$)).subscribe((s) => {
       this.state = Object.assign(this.state, { state: s } as IGridState);
     });
-    this.grid.columnResize.pipe(takeUntil(this._destroy$)).subscribe((s) => {
-      console.log("resize", s);
-
+    // handle the columnResize event
+    this.grid.columnResize.pipe(takeUntil(this.destroy$)).subscribe((s) => {
       const existing = this.state;
       //find the column
       s.forEach((e) => {
@@ -122,8 +130,8 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
       });
       this.state = Object.assign(this.state, { columns: existing.columns });
     });
-    this.grid.columnReorder.pipe(takeUntil(this._destroy$)).subscribe((s) => {
-      console.log("reorder", s);
+    // handle the columnReorder event
+    this.grid.columnReorder.pipe(takeUntil(this.destroy$)).subscribe((s) => {
       /*the reorder event does not include hidden columns
        so we need to cater for this
 
@@ -155,6 +163,8 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
     );
   };
   ngAfterContentInit(): void {
+    this.grid.isDetailExpanded = this.expander.bind(this);
+    // apply the persisted column state to the grid column arrays
     const cols = this.grid.columns.toArray() as ColumnComponent[];
     //get any existing stored col state
     const storedCols = this.state.columns;
@@ -171,7 +181,6 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
       }, [] as ColumnComponent[]);
 
       //reset cols to stored state
-
       this.grid.columns.reset(sorted);
 
       //todo set up column expanded
@@ -189,6 +198,6 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
     }
   }
   ngOnDestroy(): void {
-    this._destroy$.next();
+    this.destroy$.next();
   }
 }
