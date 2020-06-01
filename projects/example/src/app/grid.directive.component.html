@@ -1,0 +1,41 @@
+<kendo-grid
+  gridState="ANiceGrid"
+  (stateReady)="onGotState($event)"
+  #grid
+  [data]="data$ | async"
+  [pageable]="{
+    buttonCount: 5,
+    info: true,
+    type: 'numeric',
+    pageSizes: true,
+    previousNex: true
+  }"
+  [loading]="loading"
+  [pageSize]="gridState.take"
+  [filter]="gridState.filter"
+  [groupable]="true"
+  [group]="gridState.group"
+  [sortable]="true"
+  [skip]="gridState.skip"
+  [sort]="gridState.sort"
+  [filterable]="true"
+  [resizable]="true"
+  [reorderable]="true"
+  [columnMenu]="true"
+  (dataStateChange)="onStateChange($event)"
+>
+  <kendo-grid-column
+    field="ProductID"
+    [width]="20"
+    [hidden]="true"
+  ></kendo-grid-column>
+  <kendo-grid-column field="ProductName"></kendo-grid-column>
+  <kendo-grid-column field="SupplierID" filter="numeric"></kendo-grid-column>
+  <kendo-grid-column field="QuantityPerUnit"></kendo-grid-column>
+  <kendo-grid-column field="UnitPrice" filter="numeric"></kendo-grid-column>
+  <kendo-grid-column field="UnitsInStock" filter="numeric"></kendo-grid-column>
+  <kendo-grid-column field="UnitsOnOrder" filter="numeric"></kendo-grid-column>
+  <kendo-grid-column field="ReorderLevel" filter="numeric"></kendo-grid-column>
+  <kendo-grid-column field="Discontinued" filter="boolean"></kendo-grid-column>
+</kendo-grid>
+<div>State: {{ gridState | json }}</div>

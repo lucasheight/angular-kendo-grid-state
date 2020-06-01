@@ -1,0 +1,59 @@
+<kendo-grid
+  #grid
+  [data]="data$ | async"
+  [(pageSize)]="gridSettings.state.take"
+  [pageable]="{
+    buttonCount: 5,
+    info: true,
+    type: 'numeric',
+    pageSizes: true,
+    previousNex: true
+  }"
+  [loading]="loading"
+  [(filter)]="gridSettings.state.filter"
+  [groupable]="false"
+  [(group)]="gridSettings.state.group"
+  [sortable]="true"
+  [(skip)]="gridSettings.state.skip"
+  [(sort)]="gridSettings.state.sort"
+  [filterable]="true"
+  [resizable]="true"
+  [reorderable]="true"
+  [columnMenu]="true"
+  (dataStateChange)="onStateChange($event)"
+  (columnVisibilityChange)="gridStateService.onVisibilityChange($event)"
+  (columnReorder)="gridStateService.onColumnReorder($event)"
+  (columnResize)="gridStateService.onColumnResize($event)"
+>
+  <kendo-grid-column
+    field="ProductID"
+    [width]="20"
+    [hidden]="true"
+  ></kendo-grid-column>
+  <kendo-grid-column field="ProductName"></kendo-grid-column>
+  <kendo-grid-column field="SupplierID" filter="numeric"></kendo-grid-column>
+  <kendo-grid-column field="QuantityPerUnit"></kendo-grid-column>
+  <kendo-grid-column field="UnitPrice" filter="numeric"></kendo-grid-column>
+  <kendo-grid-column field="UnitsInStock" filter="numeric"></kendo-grid-column>
+  <kendo-grid-column field="UnitsOnOrder" filter="numeric"></kendo-grid-column>
+  <kendo-grid-column field="ReorderLevel" filter="numeric"></kendo-grid-column>
+  <kendo-grid-column field="Discontinued" filter="boolean"></kendo-grid-column>
+  <!-- <kendo-grid-column
+    *ngFor="let col of gridSettings.columns"
+    [title]="col.title"
+    [field]="col.field"
+    [hidden]="col.hidden === undefined ? false : col.hidden"
+    [filterable]="col.filterable"
+    [editable]="col.editable === undefined ? true : col.editable"
+    [width]="col.width"
+  >
+    <ng-template
+      *ngIf="col.field === 'ProductID'"
+      kendoGridCellTemplate
+      let-dataItem
+    >
+      {{ dataItem.ProductID }} - {{ dataItem.ProductName }}
+    </ng-template>
+  </kendo-grid-column> -->
+</kendo-grid>
+State: {{ gridSettings.state | json }}

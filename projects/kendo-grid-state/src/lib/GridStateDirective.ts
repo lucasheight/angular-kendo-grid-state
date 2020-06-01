@@ -1,7 +1,6 @@
 import {
   Directive,
   OnInit,
-  AfterViewInit,
   Input,
   Output,
   EventEmitter,
@@ -9,26 +8,22 @@ import {
   QueryList,
   AfterContentInit,
 } from "@angular/core";
-import {
-  GridComponent,
-  ColumnBase,
-  ColumnComponent,
-} from "@progress/kendo-angular-grid";
+import { GridComponent, ColumnComponent } from "@progress/kendo-angular-grid";
 import {
   CompositeFilterDescriptor,
   State,
   SortDescriptor,
   GroupDescriptor,
 } from "@progress/kendo-data-query";
-import { ColumnSettings } from "kendo-grid-state/public-api";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
+import { Column } from "./ColumnSettings";
+import { IGridState } from "./GridSettings";
 
 @Directive({
   selector: "[gridState]",
 })
-export class GridStateDirective
-  implements OnInit, AfterViewInit, OnDestroy, AfterContentInit {
+export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
   _destroy$ = new Subject<void>();
   @Output() stateReady: EventEmitter<State> = new EventEmitter();
   @Input() filter: CompositeFilterDescriptor;
@@ -68,7 +63,7 @@ export class GridStateDirective
   }
   ngOnInit(): void {
     if (this.gridState == undefined || this.gridState == "") {
-      throw "gridState has not been set, this is required to be unique for each grid";
+      throw "gridState has not been set, this is required to be unique for each grid as it is used as the storage key";
     }
 
     const initState: State = {
@@ -82,7 +77,9 @@ export class GridStateDirective
       initState,
       this.state && this.state.state
     );
-    this.state = Object.assign(this.state, { state: merged } as IGridState);
+    this.state = Object.assign(this.state || {}, {
+      state: merged,
+    } as IGridState);
     setTimeout(() => {
       this.skipChange.emit(merged.skip);
       this.sortChange.emit(merged.sort);
@@ -91,20 +88,32 @@ export class GridStateDirective
       this.filterChange.emit(merged.filter);
       this.stateReady.emit(merged);
     });
-
-    this.grid.columns.changes.pipe(takeUntil(this._destroy$)).subscribe((s) => {
-      console.log("columns", s);
-    });
+    this.grid.columnVisibilityChange
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((s) => {
+        const existing = this.state;
+        s.columns.forEach((col) => {
+          existing.columns.find(
+            (f) => f.field == (col as ColumnComponent).field
+          ).hidden = col.hidden;
+        });
+        this.state = existing;
+      });
+    // this.grid.columns.changes.pipe(takeUntil(this._destroy$)).subscribe((s) => {
+    //   console.log("columns", s);
+    // });
     this.grid.dataStateChange.pipe(takeUntil(this._destroy$)).subscribe((s) => {
       console.log("dataStateChange", s);
       this.state = Object.assign(this.state, { state: s } as IGridState);
     });
     this.grid.columnResize.pipe(takeUntil(this._destroy$)).subscribe((s) => {
       console.log("resize", s);
+
       const existing = this.state;
       //find the column
       s.forEach((e) => {
         const found = existing.columns.find(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (f) => f.field === (e.column as any).field
         );
         if (found) {
@@ -115,14 +124,19 @@ export class GridStateDirective
     });
     this.grid.columnReorder.pipe(takeUntil(this._destroy$)).subscribe((s) => {
       console.log("reorder", s);
+      /*the reorder event does not include hidden columns
+       so we need to cater for this
+
+       1. Find the hidden columns
+      */
       const hiddenCols = this.state.columns.reduce((acc, curr, idx) => {
         if (curr.hidden) {
           acc[idx] = curr;
         }
         return acc;
       }, []);
-      const visibleCols: ColumnSettings[] = this.state.columns.filter(
-        (f, idx) => f.hidden === undefined || f.hidden === false
+      const visibleCols: Column[] = this.state.columns.filter(
+        (f) => f.hidden === undefined || f.hidden === false
       );
 
       //2. apply the reordering
@@ -174,20 +188,7 @@ export class GridStateDirective
       );
     }
   }
-  ngAfterViewInit(): void {}
   ngOnDestroy(): void {
     this._destroy$.next();
   }
-}
-export class Column {
-  field? = undefined;
-  hidden? = false;
-  width?: number;
-  expanded?: boolean = false;
-}
-export interface IGridState {
-  columns: Column[];
-  state: State;
-  //  gridData?: DataResult;
-  expandedRows?: boolean[];
 }

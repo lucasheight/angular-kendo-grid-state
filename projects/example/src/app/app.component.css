@@ -1,0 +1,8 @@
+.selected {
+  font-weight: bold;
+  color: darkgreen;
+}
+.notSelected {
+  font-weight: normal;
+  color: darkslategray;
+}
