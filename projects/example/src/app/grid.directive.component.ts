@@ -18,8 +18,8 @@ export class GridDirectiveComponent implements OnInit {
   gridState: State = { skip: 0, take: 10, group: [{ field: "SupplierID" }] };
   data$: Observable<GridDataResult>;
   constructor(private service: AppService) {}
-  onGotState = (e: State): void => {
-    this.onStateChange(e as DataStateChangeEvent);
+  onGotState = (e: DataStateChangeEvent): void => {
+    this.onStateChange(e);
   };
 
   ngOnInit(): void {

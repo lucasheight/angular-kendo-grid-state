@@ -14,10 +14,10 @@ import {
   RowArgs,
   DetailExpandEvent,
   DetailCollapseEvent,
+  DataStateChangeEvent,
 } from "@progress/kendo-angular-grid";
 import {
   CompositeFilterDescriptor,
-  State,
   SortDescriptor,
   GroupDescriptor,
 } from "@progress/kendo-data-query";
@@ -33,7 +33,7 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
   /**tracks the expanded rows*/
   private expandedRows: boolean[] = [];
   /**Emitter for when persisted state is ready*/
-  @Output() stateReady: EventEmitter<State> = new EventEmitter();
+  @Output() stateReady: EventEmitter<DataStateChangeEvent> = new EventEmitter();
   @Input() filter: CompositeFilterDescriptor;
   /**Emitter for when filter state is hydrated */
   @Output() filterChange: EventEmitter<
@@ -95,14 +95,14 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
 
     // set expandedRows array to stored state or empty array
     this.expandedRows = (this.state && this.state.expandedRows) || [];
-    const initState: State = {
+    const initState: DataStateChangeEvent = {
       group: this.group,
       skip: this.skip,
       sort: this.sort,
       filter: this.filter,
       take: this.take,
     };
-    const merged: State = Object.assign(
+    const merged: DataStateChangeEvent = Object.assign(
       initState,
       this.state && this.state.state
     );

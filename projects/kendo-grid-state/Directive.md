@@ -8,12 +8,13 @@ When you have a project that has many grids, this gets old quick.
 So I have decided to use different approach using a Directive that hooks into the grid events that would be required to implement state. Also this approach manages the columns array internally without the need to predefine the array as previous was the case. So yes this means just template out the columns as one normally would do.
 
 ## Features
-* State persistance is managed entirely in the directive.
+* State persistence is managed entirely in the directive.
 * State storage can be session or local defaults to session.
 * Persists expanded rows.
 * Persists column visibility.
 * Persists column resize.
 * Persists column reorder.
+* Persists grid sort, page, page size, group, filter etc..
 
 
 Overall now to enable grid state, import the module `GridStateModule`, add the directive to the grid, provide a key (`gridState="ANiceGrid"`). _Optionally set the storage attribute `[storage]="'session' || 'local'"]` defaults to session_:
