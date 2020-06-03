@@ -75,8 +75,8 @@ export class GridStateService {
       return acc;
     }, []);
 
-    let visibleCols: ColumnSettings[] = existing.columns.filter(
-      (f, idx) => f.hidden === undefined || f.hidden === false
+    const visibleCols: ColumnSettings[] = existing.columns.filter(
+      (f) => f.hidden === undefined || f.hidden === false
     );
 
     //2. apply the reordering
@@ -96,10 +96,11 @@ export class GridStateService {
     const existing = this.get();
     //find the column
     e.forEach((e) => {
-      let found = existing.columns.find(
+      const found = existing.columns.find(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (f) => f.field === (e.column as any).field
       );
-      if(found){
+      if (found) {
         found.width = e.newWidth;
       }
     });

@@ -17,6 +17,8 @@ Install the Angular library with NPM:
 
 ### Using the library
 
+**UPDATE - There is an improved and easier way using a directive approach. [See here](./Directive.md)**
+
 #### Configure the grid and column settings
 
 An example project is included in source [here](./projects/example). To view and edit on StackBlitz https://stackblitz.com/edit/angular-kendo-grid-state
