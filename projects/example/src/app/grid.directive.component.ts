@@ -15,7 +15,7 @@ import { AppService } from "./app.service";
 export class GridDirectiveComponent implements OnInit {
   title: string = "example grid";
   loading: boolean = false;
-  gridState: State = { skip: 0, take: 5, group: [{ field: "SupplierID" }] };
+  gridState: State = { skip: 0, take: 10, group: [{ field: "SupplierID" }] };
   data$: Observable<GridDataResult>;
   constructor(private service: AppService) {}
   onGotState = (e: State): void => {
@@ -35,6 +35,7 @@ export class GridDirectiveComponent implements OnInit {
     this.service.complete = () => {
       this.loading = false;
     };
+    // this.onStateChange(this.gridState as DataStateChangeEvent);
   }
   public onStateChange = (e: DataStateChangeEvent): void => {
     this.loading = true;

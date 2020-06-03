@@ -1,13 +1,22 @@
 # GridStateDirective
 
-**_Following on from the adventures of implementing grid state for Telerik's Angular Kendo Grid._**
+**_Following on from the adventures of implementing grid state for Telerik's Angular Kendo Grid in a [reusable way](./README.md)._**
 
 The implementation of a service based solution works fine, but there was so much boiler plating needed to be done to implement persistence of a grid.
 When you have a project that has many grids, this gets old quick.
 
 So I have decided to use different approach using a Directive that hooks into the grid events that would be required to implement state. Also this approach manages the columns array internally without the need to predefine the array as previous was the case. So yes this means just template out the columns as one normally would do.
 
-Overall now to enable grid state, import the module `GridStateModule`, add the directive to the grid, provide a key (`gridState="ANiceGrid"`):
+## Features
+* State persistance is managed entirely in the directive.
+* State storage can be session or local defaults to session.
+* Persists expanded rows.
+* Persists column visibility.
+* Persists column resize.
+* Persists column reorder.
+
+
+Overall now to enable grid state, import the module `GridStateModule`, add the directive to the grid, provide a key (`gridState="ANiceGrid"`). _Optionally set the storage attribute `[storage]="'session' || 'local'"]` defaults to session_:
 ``` typescript
   @NgModule({
     declarations: [AppComponent, GridServiceComponent, GridDirectiveComponent],
@@ -25,7 +34,7 @@ Overall now to enable grid state, import the module `GridStateModule`, add the d
   export class AppModule {}
 ```
 
-```html
+``` html
 <kendo-grid gridState="ANiceGrid" (stateReady)="onGotState($event)"
   [data]="data$ | async"
   [pageable]="{
@@ -68,4 +77,4 @@ In the component handle the `stateReady` event.
     this.service.query(toODataString(e));
   };
 ```
-
+A demo can be found on [stackblitz here.](https://stackblitz.com/edit/angular-kendo-grid-state-directive)

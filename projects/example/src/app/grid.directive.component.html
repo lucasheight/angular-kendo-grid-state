@@ -10,7 +10,6 @@
     pageSizes: true,
     previousNex: true
   }"
-  
   [loading]="loading"
   [pageSize]="gridState.take"
   [filter]="gridState.filter"
@@ -39,7 +38,9 @@
   <kendo-grid-column field="ReorderLevel" filter="numeric"></kendo-grid-column>
   <kendo-grid-column field="Discontinued" filter="boolean"></kendo-grid-column>
   <ng-template kendoGridDetailTemplate let-dataItem>
-    {{dataItem.ProductName}}
+    <strong>{{ dataItem.ProductName }}</strong
+    >: available in <strong>{{ dataItem.QuantityPerUnit }}</strong
+    >, price is <strong>${{ dataItem.UnitPrice }}</strong> each.
   </ng-template>
 </kendo-grid>
 <div>State: {{ gridState | json }}</div>
