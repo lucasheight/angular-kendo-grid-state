@@ -31,7 +31,21 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
   /**tracks subscriptions*/
   private subs: Subscription = new Subscription();
   /**tracks the expanded rows*/
-  private expandedRows: boolean[] = [];
+  private _expandedRows: boolean[] = [];
+  // Input provides external setting of expanded rows
+  @Input() get expandedRows(): boolean[] {
+    return this._expandedRows;
+  }
+  set expandedRows(val: boolean[]) {
+    //check if there are any persisted
+    const existing = (this.state && this.state.expandedRows) || [];
+    //combine initial with stored state
+    existing.map((v, i) => (this._expandedRows[i] = v));
+    val.map((v, i) => (this._expandedRows[i] = v));
+    this.state = Object.assign(this.state || {}, {
+      expandedRows: this._expandedRows,
+    } as IGridState);
+  }
   /**Emitter for when persisted state is ready*/
   @Output() stateReady: EventEmitter<DataStateChangeEvent> = new EventEmitter();
   @Input() filter: CompositeFilterDescriptor;
@@ -65,7 +79,7 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
   }
 
   private expander(args: RowArgs): boolean {
-    return this.expandedRows[args.index];
+    return this._expandedRows[args.index];
   }
   private get key() {
     const key: string = this.gridState.toString();
@@ -94,7 +108,7 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
     }
 
     // set expandedRows array to stored state or empty array
-    this.expandedRows = (this.state && this.state.expandedRows) || [];
+    // this._expandedRows = (this.state && this.state.expandedRows) || [];
     const initState: DataStateChangeEvent = {
       group: this.group,
       skip: this.skip,
@@ -186,18 +200,20 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
     this.subs.add(
       this.grid.detailExpand.subscribe((e: DetailExpandEvent) => {
         this.expandedRows[e.index] = true;
-        this.state = Object.assign(this.state, {
-          expandedRows: this.expandedRows,
-        } as IGridState);
+        this.expandedRows = this._expandedRows;
+        // this.state = Object.assign(this.state, {
+        //   expandedRows: this._expandedRows,
+        // } as IGridState);
       })
     );
     // handle the detailCollapse Event
     this.subs.add(
       this.grid.detailCollapse.subscribe((e: DetailCollapseEvent) => {
-        this.expandedRows[e.index] = false;
-        this.state = Object.assign(this.state, {
-          expandedRows: this.expandedRows,
-        } as IGridState);
+        this._expandedRows[e.index] = false;
+        this.expandedRows = this._expandedRows;
+        // this.state = Object.assign(this.state, {
+        //   expandedRows: this._expandedRows,
+        // } as IGridState);
       })
     );
   }
