@@ -37,14 +37,20 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
     return this._expandedRows;
   }
   set expandedRows(val: boolean[]) {
+    const _combine = [];
     //check if there are any persisted
     const existing = (this.state && this.state.expandedRows) || [];
     //combine initial with stored state
-    existing.map((v, i) => (this._expandedRows[i] = v));
-    val.map((v, i) => (this._expandedRows[i] = v));
+    existing.forEach((el, idx) => {
+      _combine[idx] = el;
+    });
+    val.forEach((el, idx) => {
+      _combine[idx] = el;
+    });
     this.state = Object.assign(this.state || {}, {
-      expandedRows: this._expandedRows,
+      expandedRows: _combine,
     } as IGridState);
+    this.expandedRows = _combine;
   }
   /**Emitter for when persisted state is ready*/
   @Output() stateReady: EventEmitter<DataStateChangeEvent> = new EventEmitter();
