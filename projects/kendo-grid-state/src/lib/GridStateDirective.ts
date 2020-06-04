@@ -34,6 +34,7 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
   private _expandedRows: boolean[] = [];
   // Input provides external setting of expanded rows
   @Input() get expandedRows(): boolean[] {
+    //this._expandedRows = (this.state && this.state.expandedRows) || [];
     return this._expandedRows;
   }
   set expandedRows(val: boolean[]) {
@@ -50,7 +51,7 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
     this.state = Object.assign(this.state || {}, {
       expandedRows: _combine,
     } as IGridState);
-    this.expandedRows = _combine;
+    this._expandedRows = _combine;
   }
   /**Emitter for when persisted state is ready*/
   @Output() stateReady: EventEmitter<DataStateChangeEvent> = new EventEmitter();
@@ -114,7 +115,7 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
     }
 
     // set expandedRows array to stored state or empty array
-    // this._expandedRows = (this.state && this.state.expandedRows) || [];
+    this._expandedRows = (this.state && this.state.expandedRows) || [];
     const initState: DataStateChangeEvent = {
       group: this.group,
       skip: this.skip,
