@@ -32,6 +32,11 @@
   <kendo-grid-column field="ProductName"></kendo-grid-column>
   <kendo-grid-column field="SupplierID" filter="numeric"></kendo-grid-column>
   <kendo-grid-column field="QuantityPerUnit"></kendo-grid-column>
+  <kendo-grid-column title="Blank Field">
+    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+      {{ rowIndex | json }} This is the cell template
+    </ng-template>
+  </kendo-grid-column>
   <kendo-grid-column field="UnitPrice" filter="numeric"></kendo-grid-column>
   <kendo-grid-column field="UnitsInStock" filter="numeric"></kendo-grid-column>
   <kendo-grid-column field="UnitsOnOrder" filter="numeric"></kendo-grid-column>

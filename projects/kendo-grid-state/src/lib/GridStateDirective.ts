@@ -232,9 +232,21 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
   ngAfterContentInit(): void {
     // apply the persisted column state to the grid column arrays
     const cols = this.grid.columns.toArray() as ColumnComponent[];
-
+    //check to see if any have a blank field or non-existant field
+    const any = cols.some((s) => {
+      const found = s.field == "";
+      return found || !Object.keys(s).find((f) => f == "field");
+    });
+    if (any) {
+      console.warn(
+        `One or more columns in the grid does not have the field attribute set.
+        This could have unexpected results.
+        `
+      );
+    }
     //get any existing stored col state
     const storedCols = this.state.columns;
+
     if (storedCols) {
       //set grid cols to match stored order and properties
       const sorted = storedCols.reduce((acc, curr) => {
