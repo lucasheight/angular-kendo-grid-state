@@ -15,21 +15,22 @@ export interface IColumnSettings {
   sortable?: boolean;
 }
 export class Column {
-  field? = undefined;
+  origIdx?: number = 0;
+  orderIndex?: number;
+  leafIndex?: number;
   hidden? = false;
   width?: number;
   expanded?: boolean = false;
+  title?: string;
+  field?: string = undefined;
 }
 
 export class ColumnSettings extends Column implements IColumnSettings {
-  title? = this.field ? this.field : "";
-  editable? = true;
-  filterable? = true;
+  editable?: boolean = true;
+  filterable?: boolean = true;
   filter?: "string" | "numeric" | "date" | "boolean";
   editor?: "string" | "numeric" | "date" | "boolean";
   format?: string | object;
-
-  orderIndex?: number;
   media?: string;
   style?: object;
   sortable?: boolean;

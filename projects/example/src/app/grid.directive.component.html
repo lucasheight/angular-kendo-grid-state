@@ -26,13 +26,14 @@
 >
   <kendo-grid-column
     field="ProductID"
+    title="Product Id"
     [width]="20"
     [hidden]="true"
   ></kendo-grid-column>
-  <kendo-grid-column field="ProductName"></kendo-grid-column>
+  <kendo-grid-column field="ProductName" [hidden]="false"></kendo-grid-column>
   <kendo-grid-column field="SupplierID" filter="numeric"></kendo-grid-column>
   <kendo-grid-column field="QuantityPerUnit"></kendo-grid-column>
-  <kendo-grid-column title="Blank Field">
+  <kendo-grid-column field="blanlk" title="Blank Field">
     <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
       {{ rowIndex | json }} This is the cell template
     </ng-template>
@@ -47,5 +48,25 @@
     >: available in <strong>{{ dataItem.QuantityPerUnit }}</strong
     >, price is <strong>${{ dataItem.UnitPrice }}</strong> each.
   </ng-template>
+  <kendo-grid-command-column title="edit" [width]="110">
+    <ng-template kendoGridCellTemplate let-isNew="isNew" let-dataItem>
+      <button kendoButton title="edit">
+        Edit
+      </button>
+      <button kendoButton title="Delete record">
+        Delete
+      </button>
+    </ng-template>
+  </kendo-grid-command-column>
+  <kendo-grid-command-column title="edit" [width]="110" [hidden]="true">
+    <ng-template kendoGridCellTemplate let-isNew="isNew" let-dataItem>
+      <button kendoButton title="edit">
+        Edit
+      </button>
+      <button kendoButton title="Delete record">
+        Delete
+      </button>
+    </ng-template>
+  </kendo-grid-command-column>
 </kendo-grid>
 <div>State: {{ gridState | json }}</div>
