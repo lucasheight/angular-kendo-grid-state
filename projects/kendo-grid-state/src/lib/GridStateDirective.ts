@@ -6,6 +6,7 @@ import {
   EventEmitter,
   OnDestroy,
   AfterContentInit,
+  HostListener,
 } from "@angular/core";
 import {
   GridComponent,
@@ -188,12 +189,19 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
       this.grid.columns.reset(cols);
     }
   }
-  ngOnDestroy(): void {
+  @HostListener("window:beforeunload", ["$event"]) unload(e): void {
+    //this is only useful if input storage == local
+    this.saveState();
+  }
+  private saveState(): void {
     const existing = this.state;
     Object.assign(existing, {
       columns: this.colMapper(this.grid.columns.toArray()),
     });
     this.state = existing;
+  }
+  ngOnDestroy(): void {
+    this.saveState();
     this.subs.unsubscribe();
   }
 }

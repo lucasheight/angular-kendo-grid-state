@@ -1,6 +1,7 @@
 <kendo-grid
   gridState="ANiceGrid"
   (stateReady)="onGotState($event)"
+  storage="local"
   #grid
   [data]="data$ | async"
   [pageable]="{
