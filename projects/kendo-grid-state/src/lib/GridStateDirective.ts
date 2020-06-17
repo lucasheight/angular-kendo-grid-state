@@ -171,18 +171,22 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
   };
   ngAfterContentInit(): void {
     const existing = this.state.columns;
-    const cols = this.grid.columns.toArray();
-    existing.forEach((e, i) => {
-      cols[i].hidden = e.hidden;
-      cols[i].orderIndex = e.orderIndex;
-      cols[i].leafIndex = e.leafIndex;
-      cols[i].width = e.width;
-    });
-    this.grid.columns.reset(cols);
+    if (existing) {
+      const cols = this.grid.columns.toArray();
+      existing.forEach((e, i) => {
+        cols[i].hidden = e.hidden;
+        cols[i].orderIndex = e.orderIndex;
+        cols[i].leafIndex = e.leafIndex;
+        cols[i].width = e.width;
+      });
+      this.grid.columns.reset(cols);
+    }
   }
   ngOnDestroy(): void {
     const existing = this.state;
-    existing.columns = this.colMapper(this.grid.columns.toArray());
+    Object.assign(existing, {
+      columns: this.colMapper(this.grid.columns.toArray()),
+    });
     this.state = existing;
     this.subs.unsubscribe();
   }
