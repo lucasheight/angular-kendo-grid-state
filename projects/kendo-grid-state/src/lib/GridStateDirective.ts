@@ -137,6 +137,12 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
       this.filterChange.emit(merged.filter);
       this.stateReady.emit(merged);
     });
+    // handle the dataStateChange event
+    this.subs.add(
+      this.grid.dataStateChange.subscribe((s) => {
+        this.state = Object.assign(this.state, { state: s } as IGridState);
+      })
+    );
 
     // handle the detailExpand Event
     this.subs.add(
