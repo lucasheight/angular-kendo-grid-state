@@ -39,5 +39,8 @@
     "@progress/kendo-angular-popup": "3.x",
     "@progress/kendo-data-query": "1.x",
     "@progress/kendo-drawing": "1.x"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
   }
 }
