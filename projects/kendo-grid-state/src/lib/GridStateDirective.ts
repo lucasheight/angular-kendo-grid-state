@@ -106,6 +106,15 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
   public set state(val: IGridState) {
     this.storageType.setItem(this.key, JSON.stringify(val));
   }
+  public get initState(): DataStateChangeEvent {
+    return {
+      group: this.group,
+      skip: this.skip,
+      sort: this.sort,
+      filter: this.filter,
+      take: this.take,
+    };
+  }
   ngOnInit(): void {
     if (this.gridState == undefined || this.gridState == "") {
       throw "gridState has not been set, this is required to be unique for each grid as it is used as the storage key";
@@ -116,15 +125,8 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
 
     // set expandedRows array to stored state or empty array
     this._expandedRows = (this.state && this.state.expandedRows) || [];
-    const initState: DataStateChangeEvent = {
-      group: this.group,
-      skip: this.skip,
-      sort: this.sort,
-      filter: this.filter,
-      take: this.take,
-    };
     const merged: DataStateChangeEvent = Object.assign(
-      initState,
+      this.initState,
       this.state && this.state.state
     );
     this.state = Object.assign(this.state || {}, {
@@ -194,11 +196,9 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
     this.saveState();
   }
   private saveState(): void {
-    const existing = this.state;
-    Object.assign(existing, {
+    this.state = Object.assign(this.state || { state: this.initState, columns:[] }, {
       columns: this.colMapper(this.grid.columns.toArray()),
     });
-    this.state = existing;
   }
   ngOnDestroy(): void {
     this.saveState();

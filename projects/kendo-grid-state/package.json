@@ -1,6 +1,6 @@
 {
   "name": "@lucasheight/kendo-grid-state",
-  "version": "0.1.6",
+  "version": "0.1.8",
   "description": "A helper library that implements a directive to manage grid state during session or between sessions for Progress Kendo UI for Angular Grid.",
   "keywords": [
     "angular",
@@ -39,7 +39,7 @@
     "@progress/kendo-angular-popup": "3.x",
     "@progress/kendo-data-query": "1.x",
     "@progress/kendo-drawing": "1.x"
-  },
+  },
   "dependencies": {
     "tslib": "^2.0.0"
   }
