@@ -1,9 +1,5 @@
 <h1>Northwind Products</h1>
 
-<a href="#" [ngClass]="{ 'selected': toggle==1, 'notSelected': toggle==2}" (click)="toggle = 1"
-  >Grid using GridState Service</a
->
-| <a href="#" [ngClass]="{ 'selected': toggle==2, 'notSelected': toggle==1}" (click)="toggle = 2">Grid using GridStateDirective</a>
+ <h2>Grid using GridStateDirective</h2>
 
-<gridServiceCompoment *ngIf="toggle==1"></gridServiceCompoment>
-<gridDirectiveCompoment *ngIf="toggle==2"></gridDirectiveCompoment>
+<gridDirectiveCompoment ></gridDirectiveCompoment>

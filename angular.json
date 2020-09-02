@@ -65,6 +65,7 @@
             ],
             "styles": [
               "node_modules/@progress/kendo-theme-default/dist/all.css",
+              "node_modules/milligram/dist/milligram.min.css",
               "projects/example/src/styles.css"
             ],
             "scripts": []

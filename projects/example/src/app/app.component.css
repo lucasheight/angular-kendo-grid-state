@@ -6,3 +6,4 @@
   font-weight: normal;
   color: darkslategray;
 }
+:host{ display:block; padding:50px 50px;}
