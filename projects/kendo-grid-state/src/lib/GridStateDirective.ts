@@ -55,6 +55,7 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
     } as IGridState);
     this._expandedRows = _combine;
   }
+  @Output() expandedRowsChange: EventEmitter<any[]> = new EventEmitter();
   /**Emitter for when persisted state is ready*/
   @Output() stateReady: EventEmitter<DataStateChangeEvent> = new EventEmitter();
   @Input() filter: CompositeFilterDescriptor;
@@ -126,6 +127,7 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
 
     // set expandedRows array to stored state or empty array
     this._expandedRows = (this.state && this.state.expandedRows) || [];
+    this.expandedRowsChange.emit(this._expandedRows);
     const merged: DataStateChangeEvent = Object.assign(
       this.initState,
       this.state && this.state.state
@@ -153,6 +155,7 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
       this.grid.detailExpand.subscribe((e: DetailExpandEvent) => {
         this.expandedRows[e.index] = true;
         this.expandedRows = this._expandedRows;
+        this.expandedRowsChange.emit(this._expandedRows);
       })
     );
     // handle the detailCollapse Event
@@ -160,6 +163,7 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
       this.grid.detailCollapse.subscribe((e: DetailCollapseEvent) => {
         this._expandedRows[e.index] = false;
         this.expandedRows = this._expandedRows;
+        this.expandedRowsChange.emit(this._expandedRows);
       })
     );
   }
