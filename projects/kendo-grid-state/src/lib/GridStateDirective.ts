@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Directive,
   OnInit,
@@ -32,13 +33,13 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
   /**tracks subscriptions*/
   private subs: Subscription = new Subscription();
   /**tracks the expanded rows*/
-  private _expandedRows: boolean[] = [];
+  private _expandedRows: any[] = [];
   // Input provides external setting of expanded rows
-  @Input() get expandedRows(): boolean[] {
+  @Input() get expandedRows(): any[] {
     //this._expandedRows = (this.state && this.state.expandedRows) || [];
     return this._expandedRows;
   }
-  set expandedRows(val: boolean[]) {
+  set expandedRows(val: any[]) {
     const _combine = [];
     //check if there are any persisted
     const existing = (this.state && this.state.expandedRows) || [];
@@ -196,9 +197,12 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
     this.saveState();
   }
   private saveState(): void {
-    this.state = Object.assign(this.state || { state: this.initState, columns:[] }, {
-      columns: this.colMapper(this.grid.columns.toArray()),
-    });
+    this.state = Object.assign(
+      this.state || { state: this.initState, columns: [] },
+      {
+        columns: this.colMapper(this.grid.columns.toArray()),
+      }
+    );
   }
   ngOnDestroy(): void {
     this.saveState();
