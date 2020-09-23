@@ -91,7 +91,7 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
     return this._expandedRows[args.index];
   }
   private get key() {
-    const key: string = this.gridState.toString();
+    const key: string = this.gridState;
     return key;
   }
   private get storageType(): Storage {

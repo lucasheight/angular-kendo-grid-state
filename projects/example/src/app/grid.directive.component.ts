@@ -16,6 +16,7 @@ export class GridDirectiveComponent implements OnInit {
   title: string = "example grid";
   loading: boolean = false;
   gridState: State = { skip: 0, take: 10, group: [{ field: "SupplierID" }] };
+  expandedRows: any[] = [];
   data$: Observable<GridDataResult>;
   constructor(private service: AppService) {}
   onGotState = (e: DataStateChangeEvent): void => {

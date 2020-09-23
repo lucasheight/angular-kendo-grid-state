@@ -1,6 +1,7 @@
 <kendo-grid
-  gridState="ANiceGrid"
+  [expandedRows]="expandedRows"
   (stateReady)="onGotState($event)"
+  [gridState]="'ANiceGrid'"
   storage="local"
   #grid
   [data]="data$ | async"
