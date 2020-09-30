@@ -27,7 +27,7 @@ import { Column } from "./ColumnSettings";
 import { IGridState } from "./GridSettings";
 
 @Directive({
-  selector: "[gridState]",
+  selector: "kendo-grid[gridState]",
 })
 export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
   /**tracks subscriptions*/
