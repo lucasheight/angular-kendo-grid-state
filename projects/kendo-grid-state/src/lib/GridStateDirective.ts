@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Directive,
   OnInit,
@@ -27,6 +26,7 @@ import { Column } from "./ColumnSettings";
 import { IGridState } from "./GridSettings";
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: "kendo-grid[gridState]",
 })
 export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
@@ -60,9 +60,8 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
   @Output() stateReady: EventEmitter<DataStateChangeEvent> = new EventEmitter();
   @Input() filter: CompositeFilterDescriptor;
   /**Emitter for when filter state is hydrated */
-  @Output() filterChange: EventEmitter<
-    CompositeFilterDescriptor
-  > = new EventEmitter();
+  @Output()
+  filterChange: EventEmitter<CompositeFilterDescriptor> = new EventEmitter();
   /**gridState key: required*/
   @Input() gridState: string; //key
   @Input() sort: Array<SortDescriptor>;

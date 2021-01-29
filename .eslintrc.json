@@ -1,24 +1,40 @@
 {
-    "env": {
-        "browser": true
-    },
-    "extends": [
-        "plugin:@typescript-eslint/recommended",
-        "plugin:prettier/recommended"
-    ],
-
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
+  "root": true,
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
         "ecmaVersion": 2017,
-        "sourceType": "module"
-    },
-    "plugins": [
-        "@typescript-eslint","prettier" 
-    ],
+        "sourceType": "module",
+        "project": ["tsconfig.json"],
+        "createDefaultProgram": true
+      },
+      "extends": [
+        "plugin:@angular-eslint/recommended",
+        // This is required if you use inline templates in Components
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "plugin:prettier/recommended"
+      ],
 
-    "rules": {
+      "plugins": ["@typescript-eslint", "@angular-eslint", "prettier"],
+
+      "rules": {
         "@typescript-eslint/interface-name-prefix": 0,
-        "@typescript-eslint/no-inferrable-types":0,
-        "prettier/prettier":["error",{"endOfLine":"auto"}]
+        "@typescript-eslint/no-inferrable-types": 0,
+        "prettier/prettier": ["error", { "endOfLine": "auto" }]
+
+        /**
+         * Any TypeScript source code (NOT TEMPLATE) related rules you wish to use/reconfigure over and above the
+         * recommended set provided by the @angular-eslint project would go here.
+         */
+      }
+    },
+    {
+      "files": ["*.html"],
+      "parser": "@angular-eslint/template-parser",
+      "plugins": ["@angular-eslint/template"],
+      "rules": {}
     }
+  ]
 }
