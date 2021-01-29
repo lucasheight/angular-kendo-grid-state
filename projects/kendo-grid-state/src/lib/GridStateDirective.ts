@@ -22,11 +22,9 @@ import {
   GroupDescriptor,
 } from "@progress/kendo-data-query";
 import { Subscription } from "rxjs";
-import { Column } from "./ColumnSettings";
-import { IGridState } from "./GridSettings";
-
+import { Column } from "./Column";
+import { IGridState } from "./GridState";
 @Directive({
-  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: "kendo-grid[gridState]",
 })
 export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {

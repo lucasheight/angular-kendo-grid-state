@@ -6,11 +6,10 @@ import { AppComponent } from "./app.component";
 import { HttpClientModule } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
 import { GridStateModule } from "projects/kendo-grid-state/src/public-api";
-import { GridServiceComponent } from "./grid.service.component";
 import { GridDirectiveComponent } from "./grid.directive.component";
 
 @NgModule({
-  declarations: [AppComponent, GridServiceComponent, GridDirectiveComponent],
+  declarations: [AppComponent, GridDirectiveComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
