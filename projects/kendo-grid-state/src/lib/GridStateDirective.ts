@@ -24,6 +24,7 @@ import {
 import { Subscription } from "rxjs";
 import { Column } from "./Column";
 import { IGridState } from "./GridState";
+import { IGridStateStorage } from "./GridStateStorage";
 @Directive({
   selector: "kendo-grid[gridState]",
 })
@@ -79,7 +80,7 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
   /**Emitter for when take state is hydrated */
   @Output() takeChange: EventEmitter<number> = new EventEmitter();
   /**Session storage type: defaults to session */
-  @Input() storage: "session" | "local" = "session";
+  @Input() storage: "session" | "local" | IGridStateStorage = "session";
   constructor(private grid: GridComponent) {
     //bind the isDetailsExpanded callback
     this.grid.isDetailExpanded = this.expander.bind(this);
@@ -92,8 +93,15 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
     const key: string = this.gridState;
     return key;
   }
-  private get storageType(): Storage {
-    return this.storage === "local" ? localStorage : sessionStorage;
+  private get storageType(): IGridStateStorage {
+    switch (this.storage) {
+      case "local":
+        return localStorage;
+      case "session":
+        return sessionStorage;
+      default:
+        return this.storage;
+    }
   }
   /**Gets the IGridState object from storage */
   public get state(): IGridState {
@@ -118,7 +126,8 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
     if (this.gridState == undefined || this.gridState == "") {
       throw "gridState has not been set, this is required to be unique for each grid as it is used as the storage key";
     }
-    if (this.storage !== "session" && this.storage !== "local") {
+    if (this.storage !== "session" && this.storage !== "local" &&
+      (this.storage == null || typeof this.storage.getItem != "function" || typeof this.storage.setItem != "function")) {
       console.warn("gridState storage cannot be found, defaulting to session.");
     }
 
@@ -168,15 +177,15 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
   private colMapper = (cols: ColumnBase[]): Column[] => {
     const c = cols.map(
       (m, idx) =>
-        ({
-          origIdx: idx,
-          orderIndex: m.orderIndex,
-          leafIndex: m.leafIndex,
-          hidden: m.hidden,
-          width: m.width,
-          title: m.title,
-          field: (m as any).field,
-        } as Column)
+      ({
+        origIdx: idx,
+        orderIndex: m.orderIndex,
+        leafIndex: m.leafIndex,
+        hidden: m.hidden,
+        width: m.width,
+        title: m.title,
+        field: (m as any).field,
+      } as Column)
     );
     return c;
   };

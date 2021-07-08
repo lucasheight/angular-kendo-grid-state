@@ -7,6 +7,16 @@ import {
 import { State, toODataString, groupBy } from "@progress/kendo-data-query";
 import { map } from "rxjs/operators";
 import { AppService } from "./app.service";
+import { IGridStateStorage } from "projects/kendo-grid-state/src/public-api";
+
+class CustomGridStateStorage implements IGridStateStorage {
+  getItem(key: string): string {
+    return localStorage.getItem(key);
+  }
+  setItem(key: string, value: string): void {
+    localStorage.setItem(key, value);
+  }
+}
 
 @Component({
   selector: "gridDirectiveCompoment",
@@ -18,7 +28,8 @@ export class GridDirectiveComponent implements OnInit {
   gridState: State = { skip: 0, take: 10, group: [{ field: "SupplierID" }] };
   expandedRows: any[] = [];
   data$: Observable<GridDataResult>;
-  constructor(private service: AppService) {}
+  storage: IGridStateStorage = new CustomGridStateStorage();
+  constructor(private service: AppService) { }
   onGotState = (e: DataStateChangeEvent): void => {
     this.onStateChange(e);
   };
