@@ -7,6 +7,7 @@ import {
   OnDestroy,
   AfterContentInit,
   HostListener,
+  Inject,
 } from "@angular/core";
 import {
   GridComponent,
@@ -24,7 +25,7 @@ import {
 import { Subscription } from "rxjs";
 import { Column } from "./Column";
 import { IGridState } from "./GridState";
-import { IGridStateStorage } from "./GridStateStorage";
+import { GRID_STATE_STORAGE, IGridStateStorage } from "./GridStateStorage";
 @Directive({
   selector: "kendo-grid[gridState]",
 })
@@ -79,9 +80,11 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
   @Input() take?: number = 10;
   /**Emitter for when take state is hydrated */
   @Output() takeChange: EventEmitter<number> = new EventEmitter();
-  /**Session storage type: defaults to session */
-  @Input() storage: "session" | "local" | IGridStateStorage = "session";
-  constructor(private grid: GridComponent) {
+
+  constructor(
+    private readonly grid: GridComponent,
+    @Inject(GRID_STATE_STORAGE) private readonly storage: IGridStateStorage
+  ) {
     //bind the isDetailsExpanded callback
     this.grid.isDetailExpanded = this.expander.bind(this);
   }
@@ -93,25 +96,15 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
     const key: string = this.gridState;
     return key;
   }
-  private get storageType(): IGridStateStorage {
-    switch (this.storage) {
-      case "local":
-        return localStorage;
-      case "session":
-        return sessionStorage;
-      default:
-        return this.storage;
-    }
-  }
   /**Gets the IGridState object from storage */
   public get state(): IGridState {
-    const raw: string = this.storageType.getItem(this.key);
+    const raw: string = this.storage.getItem(this.key);
     const parsed = raw ? JSON.parse(raw) : raw;
     return parsed;
   }
   /**Sets the IGridState object to storage */
   public set state(val: IGridState) {
-    this.storageType.setItem(this.key, JSON.stringify(val));
+    this.storage.setItem(this.key, JSON.stringify(val));
   }
   public get initState(): DataStateChangeEvent {
     return {
@@ -126,11 +119,6 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
     if (this.gridState == undefined || this.gridState == "") {
       throw "gridState has not been set, this is required to be unique for each grid as it is used as the storage key";
     }
-    if (this.storage !== "session" && this.storage !== "local" &&
-      (this.storage == null || typeof this.storage.getItem != "function" || typeof this.storage.setItem != "function")) {
-      console.warn("gridState storage cannot be found, defaulting to session.");
-    }
-
     // set expandedRows array to stored state or empty array
     this._expandedRows = (this.state && this.state.expandedRows) || [];
     this.expandedRowsChange.emit(this._expandedRows);

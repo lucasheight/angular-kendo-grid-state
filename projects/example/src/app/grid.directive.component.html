@@ -1,5 +1,5 @@
-<kendo-grid [expandedRows]="expandedRows" (stateReady)="onGotState($event)" [gridState]="'ANiceGrid'"
-  [storage]="storage" #grid [data]="data$ | async" [pageable]="{
+<kendo-grid [expandedRows]="expandedRows" (stateReady)="onGotState($event)" [gridState]="'ANiceGrid'" #grid
+  [data]="data$ | async" [pageable]="{
     buttonCount: 5,
     info: true,
     type: 'numeric',

@@ -7,13 +7,17 @@ import {
 import { State, toODataString, groupBy } from "@progress/kendo-data-query";
 import { map } from "rxjs/operators";
 import { AppService } from "./app.service";
-import { IGridStateStorage } from "projects/kendo-grid-state/src/public-api";
+import { GRID_STATE_STORAGE, IGridStateStorage } from "projects/kendo-grid-state/src/public-api";
 
+// This is a sample implementation of IGridStateStorage which internally uses LocalStorage.
+// To read/write grid state e.g. to a database you will have to implement your own logic.
 class CustomGridStateStorage implements IGridStateStorage {
   getItem(key: string): string {
+    console.log(`CustomGridStateStorage.getItem: key='${key}'`);
     return localStorage.getItem(key);
   }
   setItem(key: string, value: string): void {
+    console.log(`CustomGridStateStorage.setItem: key='${key}', value='${value}'`);
     localStorage.setItem(key, value);
   }
 }
@@ -21,6 +25,8 @@ class CustomGridStateStorage implements IGridStateStorage {
 @Component({
   selector: "gridDirectiveCompoment",
   templateUrl: "./grid.directive.component.html",
+  // To use the default storage (Session) remove the providers section
+  providers: [{ provide: GRID_STATE_STORAGE, useClass: CustomGridStateStorage }]
 })
 export class GridDirectiveComponent implements OnInit {
   title: string = "example grid";
@@ -28,7 +34,6 @@ export class GridDirectiveComponent implements OnInit {
   gridState: State = { skip: 0, take: 10, group: [{ field: "SupplierID" }] };
   expandedRows: any[] = [];
   data$: Observable<GridDataResult>;
-  storage: IGridStateStorage = new CustomGridStateStorage();
   constructor(private service: AppService) { }
   onGotState = (e: DataStateChangeEvent): void => {
     this.onStateChange(e);
