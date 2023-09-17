@@ -1,14 +1,37 @@
-<kendo-grid [expandedRows]="expandedRows" (stateReady)="onGotState($event)" [gridState]="'ANiceGrid'"
-  [storage]="storage" #grid [data]="data$ | async" [pageable]="{
+<kendo-grid
+  [expandedRows]="expandedRows"
+  (stateReady)="onGotState($event)"
+  [gridState]="'ANiceGrid'"
+  [storage]="storage"
+  #grid
+  [data]="data$ | async"
+  [pageable]="{
     buttonCount: 5,
     info: true,
     type: 'numeric',
     pageSizes: true,
     previousNext: true
-  }" [loading]="loading" [pageSize]="gridState.take" [filter]="gridState.filter" [groupable]="true"
-  [group]="gridState.group" [sortable]="true" [skip]="gridState.skip" [sort]="gridState.sort" [filterable]="true"
-  [resizable]="true" [reorderable]="true" [columnMenu]="true" (dataStateChange)="onStateChange($event)">
-  <kendo-grid-column field="ProductID" title="Product Id" [width]="20" [hidden]="true"></kendo-grid-column>
+  }"
+  [loading]="loading"
+  [pageSize]="gridState.take"
+  [filter]="gridState.filter"
+  [groupable]="true"
+  [group]="gridState.group"
+  [sortable]="true"
+  [skip]="gridState.skip"
+  [sort]="gridState.sort"
+  [filterable]="true"
+  [resizable]="true"
+  [reorderable]="true"
+  [columnMenu]="true"
+  (dataStateChange)="onStateChange($event)"
+>
+  <kendo-grid-column
+    field="ProductID"
+    title="Product Id"
+    [width]="20"
+    [hidden]="true"
+  ></kendo-grid-column>
   <kendo-grid-column field="ProductName" [hidden]="false"></kendo-grid-column>
   <kendo-grid-column field="SupplierID" filter="numeric"></kendo-grid-column>
   <kendo-grid-column field="QuantityPerUnit"></kendo-grid-column>
@@ -23,28 +46,9 @@
   <kendo-grid-column field="ReorderLevel" filter="numeric"></kendo-grid-column>
   <kendo-grid-column field="Discontinued" filter="boolean"></kendo-grid-column>
   <ng-template kendoGridDetailTemplate let-dataItem>
-    <strong>{{ dataItem.ProductName }}</strong>: available in <strong>{{ dataItem.QuantityPerUnit }}</strong>, price is
-    <strong>${{ dataItem.UnitPrice }}</strong> each.
+    <strong>{{ dataItem.ProductName }}</strong
+    >: available in <strong>{{ dataItem.QuantityPerUnit }}</strong
+    >, price is <strong>${{ dataItem.UnitPrice }}</strong> each.
   </ng-template>
-  <kendo-grid-command-column title="edit" [width]="110">
-    <ng-template kendoGridCellTemplate let-isNew="isNew" let-dataItem>
-      <button kendoButton title="edit">
-        Edit
-      </button>
-      <button kendoButton title="Delete record">
-        Delete
-      </button>
-    </ng-template>
-  </kendo-grid-command-column>
-  <kendo-grid-command-column title="edit" [width]="110" [hidden]="true">
-    <ng-template kendoGridCellTemplate let-isNew="isNew" let-dataItem>
-      <button kendoButton title="edit">
-        Edit
-      </button>
-      <button kendoButton title="Delete record">
-        Delete
-      </button>
-    </ng-template>
-  </kendo-grid-command-column>
 </kendo-grid>
 <div>State: {{ gridState | json }}</div>
