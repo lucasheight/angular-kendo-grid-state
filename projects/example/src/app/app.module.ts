@@ -21,7 +21,7 @@ import { GridDirectiveComponent } from "./grid.directive.component";
     GridModule,
     GridStateModule,
   ],
-  providers: [{ provide: APP_STORAGE, useFactory: () => localStorage }],
+  //providers: [{ provide: APP_STORAGE, useFactory: () => localStorage }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
