@@ -5,7 +5,10 @@ import { GridModule } from "@progress/kendo-angular-grid";
 import { AppComponent } from "./app.component";
 import { HttpClientModule } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
-import { GridStateModule } from "projects/kendo-grid-state/src/public-api";
+import {
+  APP_STORAGE,
+  GridStateModule,
+} from "projects/kendo-grid-state/src/public-api";
 import { GridDirectiveComponent } from "./grid.directive.component";
 
 @NgModule({
@@ -18,7 +21,7 @@ import { GridDirectiveComponent } from "./grid.directive.component";
     GridModule,
     GridStateModule,
   ],
-  providers: [],
+  providers: [{ provide: APP_STORAGE, useFactory: () => localStorage }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

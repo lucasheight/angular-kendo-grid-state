@@ -6,4 +6,6 @@ export * from "./lib/Column";
 export * from "./lib/GridState";
 export * from "./lib/GridStateModule";
 export * from "./lib/GridStateDirective";
-export * from "./lib/GridStateStorage";
+//export * from "./lib/GridStateStorage";
+export * from "./lib/AppStorage";
+export * from "./lib/StorageService";
