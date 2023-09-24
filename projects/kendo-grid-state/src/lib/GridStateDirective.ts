@@ -24,7 +24,6 @@ import {
 import { Subscription } from "rxjs";
 import { Column } from "./Column";
 import { IGridState } from "./GridState";
-//import { IGridStateStorage } from "./GridStateStorage";
 import { StorageService } from "./StorageService";
 @Directive({
   selector: "kendo-grid[gridState]",
@@ -79,7 +78,7 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
   /**Emitter for when take state is hydrated */
   @Output() takeChange: EventEmitter<number> = new EventEmitter();
   /**Session storage type: defaults to session */
-  //@Input() storage: "session" | "local" | IGridStateStorage = "session";
+
   constructor(
     private grid: GridComponent,
     private storageService: StorageService,
@@ -95,16 +94,7 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
     const key: string = this.gridState;
     return key;
   }
-  // private get storageType(): IGridStateStorage {
-  //   switch (this.storage) {
-  //     case "local":
-  //       return localStorage;
-  //     case "session":
-  //       return sessionStorage;
-  //     default:
-  //       return this.storage;
-  //   }
-  // }
+
   /**Gets the IGridState object from storage */
   public get state(): IGridState {
     const raw: string = this.storageService.getItem(this.key);
@@ -128,15 +118,6 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
     if (this.gridState == undefined || this.gridState == "") {
       throw "gridState has not been set, this is required to be unique for each grid as it is used as the storage key";
     }
-    // if (
-    //   this.storage !== "session" &&
-    //   this.storage !== "local" &&
-    //   (this.storage == null ||
-    //     typeof this.storage.getItem != "function" ||
-    //     typeof this.storage.setItem != "function")
-    // ) {
-    //   console.warn("gridState storage cannot be found, defaulting to session.");
-    // }
 
     // set expandedRows array to stored state or empty array
     this._expandedRows = (this.state && this.state.expandedRows) || [];
