@@ -24,7 +24,7 @@ import {
 import { Subscription } from "rxjs";
 import { Column } from "./Column";
 import { IGridState } from "./GridState";
-import { IGridStateStorage } from "./GridStateStorage";
+import { StorageService } from "./StorageService";
 @Directive({
   selector: "kendo-grid[gridState]",
 })
@@ -65,23 +65,24 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
   @Input() gridState: string; //key
   @Input() sort: Array<SortDescriptor>;
   /**Emitter for when sort state is hydrated */
-  @Output() sortChange: EventEmitter<
-    Array<SortDescriptor>
-  > = new EventEmitter();
+  @Output() sortChange: EventEmitter<Array<SortDescriptor>> =
+    new EventEmitter();
   @Input() skip?: number = 0;
   /**Emitter for when skip state is hydrated */
   @Output() skipChange: EventEmitter<number> = new EventEmitter();
   @Input() group?: Array<GroupDescriptor>;
   /**Emitter for when group state is hydrated */
-  @Output() groupChange: EventEmitter<
-    Array<GroupDescriptor>
-  > = new EventEmitter();
+  @Output() groupChange: EventEmitter<Array<GroupDescriptor>> =
+    new EventEmitter();
   @Input() take?: number = 10;
   /**Emitter for when take state is hydrated */
   @Output() takeChange: EventEmitter<number> = new EventEmitter();
   /**Session storage type: defaults to session */
-  @Input() storage: "session" | "local" | IGridStateStorage = "session";
-  constructor(private grid: GridComponent) {
+
+  constructor(
+    private grid: GridComponent,
+    private storageService: StorageService,
+  ) {
     //bind the isDetailsExpanded callback
     this.grid.isDetailExpanded = this.expander.bind(this);
   }
@@ -93,25 +94,16 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
     const key: string = this.gridState;
     return key;
   }
-  private get storageType(): IGridStateStorage {
-    switch (this.storage) {
-      case "local":
-        return localStorage;
-      case "session":
-        return sessionStorage;
-      default:
-        return this.storage;
-    }
-  }
+
   /**Gets the IGridState object from storage */
   public get state(): IGridState {
-    const raw: string = this.storageType.getItem(this.key);
+    const raw: string = this.storageService.getItem(this.key);
     const parsed = raw ? JSON.parse(raw) : raw;
     return parsed;
   }
   /**Sets the IGridState object to storage */
   public set state(val: IGridState) {
-    this.storageType.setItem(this.key, JSON.stringify(val));
+    this.storageService.setItem(this.key, JSON.stringify(val));
   }
   public get initState(): DataStateChangeEvent {
     return {
@@ -126,17 +118,13 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
     if (this.gridState == undefined || this.gridState == "") {
       throw "gridState has not been set, this is required to be unique for each grid as it is used as the storage key";
     }
-    if (this.storage !== "session" && this.storage !== "local" &&
-      (this.storage == null || typeof this.storage.getItem != "function" || typeof this.storage.setItem != "function")) {
-      console.warn("gridState storage cannot be found, defaulting to session.");
-    }
 
     // set expandedRows array to stored state or empty array
     this._expandedRows = (this.state && this.state.expandedRows) || [];
     this.expandedRowsChange.emit(this._expandedRows);
     const merged: DataStateChangeEvent = Object.assign(
       this.initState,
-      this.state && this.state.state
+      this.state && this.state.state,
     );
     this.state = Object.assign(this.state || {}, {
       state: merged,
@@ -153,7 +141,7 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
     this.subs.add(
       this.grid.dataStateChange.subscribe((s) => {
         this.state = Object.assign(this.state, { state: s } as IGridState);
-      })
+      }),
     );
 
     // handle the detailExpand Event
@@ -162,7 +150,7 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
         this.expandedRows[e.index] = true;
         this.expandedRows = this._expandedRows;
         this.expandedRowsChange.emit(this._expandedRows);
-      })
+      }),
     );
     // handle the detailCollapse Event
     this.subs.add(
@@ -170,22 +158,22 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
         this._expandedRows[e.index] = false;
         this.expandedRows = this._expandedRows;
         this.expandedRowsChange.emit(this._expandedRows);
-      })
+      }),
     );
   }
 
   private colMapper = (cols: ColumnBase[]): Column[] => {
     const c = cols.map(
       (m, idx) =>
-      ({
-        origIdx: idx,
-        orderIndex: m.orderIndex,
-        leafIndex: m.leafIndex,
-        hidden: m.hidden,
-        width: m.width,
-        title: m.title,
-        field: (m as any).field,
-      } as Column)
+        ({
+          origIdx: idx,
+          orderIndex: m.orderIndex,
+          leafIndex: m.leafIndex,
+          hidden: m.hidden,
+          width: m.width,
+          title: m.title,
+          field: (m as any).field,
+        }) as Column,
     );
     return c;
   };
@@ -211,7 +199,7 @@ export class GridStateDirective implements OnInit, OnDestroy, AfterContentInit {
       this.state || { state: this.initState, columns: [] },
       {
         columns: this.colMapper(this.grid.columns.toArray()),
-      }
+      },
     );
   }
   ngOnDestroy(): void {
