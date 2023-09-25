@@ -91,7 +91,7 @@ In the component handle the `stateReady` event.
 
 ## Changing Gridstate storage provider
 
-To change the application storage for all grids in your application, add the APP_STORAGE provier in the app module:
+To change the application storage for all grids in your application, add the APP_STORAGE provider in the app module:
 
 For example, this module sets the provider to use localStorage instead of the default sessionStorage.
 
