@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "dist": "cp -f README.md Directive.md Service.md LICENSE projects/kendo-grid-state/ && cd projects/kendo-grid-state && npm version patch && ng build --configuration production",
+    "dist": "cp -f README.md Directive.md LICENSE projects/kendo-grid-state/ && cd projects/kendo-grid-state && npm version patch && ng build --configuration production",
     "publish": "cd dist/kendo-grid-state && npm publish --access public"
   },
   "private": true,
