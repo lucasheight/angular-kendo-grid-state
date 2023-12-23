@@ -9,7 +9,7 @@ A helper library that implements a directive to manage grid state during session
 ## Features
 
 - State persistence is managed entirely in the directive.
-- State storage can be session or local defaults to session.
+- State storage can be session, local or custom. Defaults to session.
 - Persists expanded rows.
 - Persists column visibility.
 - Persists column resize.
