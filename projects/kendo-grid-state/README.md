@@ -6,6 +6,13 @@
 
 A helper library that implements a directive to manage grid state during session or between sessions for [@Progress Kendo UI for Angular Grid.](https://www.telerik.com/kendo-angular-ui)
 
+## Compatibility
+
+| Library version | Angular     | Kendo Angular Grid |
+| --------------- | ----------- | ------------------ |
+| 2.x             | 14 – 21     | 4 – 23             |
+| 1.x             | 8 – 18      | 4 – 19             |
+
 ## Features
 
 - State persistence is managed entirely in the directive.
@@ -26,20 +33,39 @@ Install the Angular library with NPM:
     npm install --save @lucasheight/kendo-grid-state
 ```
 
-### Using the library
+### Using the library — NgModule (Angular 12+)
 
-To enable grid state, import the module `GridStateModule`, add the directive to the grid, provide a unique key for this grid e.g. `gridState="ANiceGrid"`.
-By default the state is stored in browser sessionStorage, this can be overiden by changing the APP_STORAGE provider (See below) :
+Import `GridStateModule` into your NgModule:
 
 ```typescript
 @NgModule({
-  declarations: [AppComponent, GridServiceComponent, GridDirectiveComponent],
+  declarations: [AppComponent, GridDirectiveComponent],
   imports: [BrowserModule, BrowserAnimationsModule, CommonModule, HttpClientModule, GridModule, GridStateModule],
   providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
 ```
+
+### Using the library — Standalone (Angular 19+)
+
+Import `GridStateDirective` directly into a standalone component:
+
+```typescript
+import { GridStateDirective } from '@lucasheight/kendo-grid-state';
+
+@Component({
+  selector: 'app-my-grid',
+  standalone: true,
+  imports: [GridModule, GridStateDirective],
+  templateUrl: './my-grid.component.html',
+})
+export class MyGridComponent {}
+```
+
+### Template
+
+Add the directive to the grid and provide a unique storage key via `gridState`:
 
 ```html
 <kendo-grid
@@ -73,7 +99,7 @@ export class AppModule {}
 </kendo-grid>
 ```
 
-In the component handle the `stateReady` event.
+In the component handle the `stateReady` event:
 
 ```typescript
   loading: boolean = false;
@@ -91,11 +117,12 @@ In the component handle the `stateReady` event.
 
 ## Changing Gridstate storage provider
 
-To change the application storage for all grids in your application, add the APP_STORAGE provider in the app module:
+To change the application storage for all grids in your application, add the APP_STORAGE provider:
 
-For example, this module sets the provider to use localStorage instead of the default sessionStorage.
+For example, this sets the provider to use localStorage instead of the default sessionStorage.
 
 ```typescript
+// NgModule approach
 @NgModule({
   declarations: [AppComponent, GridDirectiveComponent],
   imports: [BrowserModule, BrowserAnimationsModule, CommonModule, HttpClientModule, GridModule, GridStateModule],
@@ -103,6 +130,13 @@ For example, this module sets the provider to use localStorage instead of the de
   bootstrap: [AppComponent],
 })
 export class AppModule {}
+```
+
+```typescript
+// Standalone approach
+bootstrapApplication(AppComponent, {
+  providers: [{ provide: APP_STORAGE, useFactory: () => localStorage }],
+});
 ```
 
 ### Custom storage providers
@@ -128,19 +162,6 @@ export const CustomStorage: Storage = {
     console.log("set custom storage", key);
   }
 };
-@NgModule({
-  declarations: [AppComponent, GridDirectiveComponent],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    CommonModule,
-    HttpClientModule,
-    GridModule,
-    GridStateModule,
-  ],
-  providers: [{ provide: APP_STORAGE, useFactory: () => CustomStorage }],
-  bootstrap: [AppComponent],
-})
 ```
 
 A demo can be found on [stackblitz here.](https://stackblitz.com/edit/angular-kendo-grid-state-directive)

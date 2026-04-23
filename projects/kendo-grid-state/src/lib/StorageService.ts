@@ -1,9 +1,9 @@
-import { Injectable, Inject } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { APP_STORAGE } from "./AppStorage";
 
 @Injectable({ providedIn: "root" })
 export class StorageService {
-  constructor(@Inject(APP_STORAGE) private store: Storage) {}
+  private store = inject<Storage>(APP_STORAGE);
   clear(): void {
     this.store.clear();
   }

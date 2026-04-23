@@ -8,13 +8,11 @@
     "types": [],
     "lib": [
       "dom",
-      "es2018"
+      "es2022"
     ]
   },
   "angularCompilerOptions": {
-    "skipTemplateCodegen": true,
-    "strictMetadataEmit": true,
-    "enableResourceInlining": true
+    "strictTemplates": true
   },
   "exclude": [
     "src/test.ts",

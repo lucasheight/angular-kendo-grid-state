@@ -2,8 +2,7 @@ import { NgModule } from "@angular/core";
 import { GridStateDirective } from "./GridStateDirective";
 
 @NgModule({
-  imports: [],
-  declarations: [GridStateDirective],
+  imports: [GridStateDirective],
   exports: [GridStateDirective],
 })
 export class GridStateModule {}
