@@ -7,8 +7,11 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "dist": "cp -f README.md Directive.md LICENSE projects/kendo-grid-state/ && cd projects/kendo-grid-state && npm version patch && ng build --configuration production",
-    "publish": "cd dist/kendo-grid-state && npm publish --access public"
+    "version:patch": "npm version patch --prefix projects/kendo-grid-state",
+    "version:minor": "npm version minor --prefix projects/kendo-grid-state",
+    "version:major": "npm version major --prefix projects/kendo-grid-state",
+    "dist": "cp -f README.md Directive.md LICENSE projects/kendo-grid-state/ && ng build kendoGridState --configuration production",
+    "publish:lib": "cd dist/kendo-grid-state && npm publish --access public"
   },
   "private": true,
   "dependencies": {
