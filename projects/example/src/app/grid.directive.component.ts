@@ -10,6 +10,7 @@ import { AppService } from "./app.service";
 @Component({
   selector: "gridDirectiveCompoment",
   templateUrl: "./grid.directive.component.html",
+  standalone: false,
 })
 export class GridDirectiveComponent implements OnInit {
   title: string = "example grid";
