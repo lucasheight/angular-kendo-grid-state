@@ -16,7 +16,7 @@
   },
   "license": "MIT",
   "repository": {
-    "url": "https://github.com/lucasheight/angular-kendo-grid-state.git",
+    "url": "git+https://github.com/lucasheight/angular-kendo-grid-state.git",
     "type": "git"
   },
   "author": {
