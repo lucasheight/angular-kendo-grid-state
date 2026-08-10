@@ -1,0 +1,36 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      angular:
+        patterns:
+          - "@angular/*"
+          - "@angular-devkit/*"
+          - "@angular-eslint/*"
+          - "ng-packagr"
+          - "zone.js"
+      kendo:
+        patterns:
+          - "@progress/*"
+      lint-and-format:
+        patterns:
+          - "eslint"
+          - "eslint-*"
+          - "@typescript-eslint/*"
+          - "prettier"
+      test-tooling:
+        patterns:
+          - "karma"
+          - "karma-*"
+          - "jasmine-core"
+          - "@types/jasmine"
+      other:
+        patterns:
+          - "*"
