@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from "@angular/core";
+import { Component, OnInit, inject, ChangeDetectorRef } from "@angular/core";
 import { Observable } from "rxjs";
 import {
   GridDataResult,
@@ -28,6 +28,7 @@ import { AsyncPipe, JsonPipe } from "@angular/common";
 })
 export class GridDirectiveComponent implements OnInit {
   private service = inject(AppService);
+  private cdr = inject(ChangeDetectorRef);
 
   title: string = "example grid";
   loading: boolean = false;
@@ -48,8 +49,11 @@ export class GridDirectiveComponent implements OnInit {
         } as GridDataResult;
       }),
     );
+    // Fires outside a template event binding, so under the default OnPush
+    // strategy the view has to be marked dirty explicitly.
     this.service.complete = () => {
       this.loading = false;
+      this.cdr.markForCheck();
     };
   }
   public onStateChange = (e: DataStateChangeEvent): void => {

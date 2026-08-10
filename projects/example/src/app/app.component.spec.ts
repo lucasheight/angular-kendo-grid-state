@@ -1,5 +1,5 @@
 import { TestBed, waitForAsync } from "@angular/core/testing";
-import { provideHttpClient } from "@angular/common/http";
+import { provideHttpClient, withXhr } from "@angular/common/http";
 import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { provideNoopAnimations } from "@angular/platform-browser/animations";
 import { AppComponent } from "./app.component";
@@ -9,7 +9,7 @@ describe("AppComponent", () => {
     TestBed.configureTestingModule({
       imports: [AppComponent],
       providers: [
-        provideHttpClient(),
+        provideHttpClient(withXhr()),
         provideHttpClientTesting(),
         provideNoopAnimations(),
       ],

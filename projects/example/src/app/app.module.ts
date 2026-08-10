@@ -6,6 +6,7 @@ import { AppComponent } from "./app.component";
 import {
   provideHttpClient,
   withInterceptorsFromDi,
+  withXhr,
 } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
 import {
@@ -26,6 +27,6 @@ import { GridDirectiveComponent } from "./grid.directive.component";
     AppComponent,
     GridDirectiveComponent,
   ],
-  providers: [provideHttpClient(withInterceptorsFromDi())],
+  providers: [provideHttpClient(withXhr(), withInterceptorsFromDi())],
 })
 export class AppModule {}
