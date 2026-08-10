@@ -29,7 +29,8 @@
             "karmaConfig": "projects/kendo-grid-state/karma.conf.js",
             "polyfills": [
               "zone.js",
-              "zone.js/testing"
+              "zone.js/testing",
+              "@angular/localize/init"
             ]
           }
         },
