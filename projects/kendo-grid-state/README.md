@@ -10,7 +10,8 @@ A helper library that implements a directive to manage grid state during session
 
 | Library version | Angular     | Kendo Angular Grid |
 | --------------- | ----------- | ------------------ |
-| 2.x             | 14 – 21     | 4 – 23             |
+| 2.1.x           | 14 – 21     | 4 – 24             |
+| 2.0.x           | 14 – 21     | 4 – 23             |
 | 1.x             | 8 – 18      | 4 – 19             |
 
 ## Features

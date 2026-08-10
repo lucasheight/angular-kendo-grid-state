@@ -1,10 +1,18 @@
-import { TestBed, async } from "@angular/core/testing";
+import { TestBed, waitForAsync } from "@angular/core/testing";
+import { provideHttpClient } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
+import { provideNoopAnimations } from "@angular/platform-browser/animations";
 import { AppComponent } from "./app.component";
 
 describe("AppComponent", () => {
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [AppComponent],
+      imports: [AppComponent],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        provideNoopAnimations(),
+      ],
     }).compileComponents();
   }));
 
@@ -20,12 +28,12 @@ describe("AppComponent", () => {
     expect(app.title).toEqual("example");
   });
 
-  it("should render title", () => {
+  it("should render the page heading", () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector(".content span").textContent).toContain(
-      "example app is running!"
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector("h1")?.textContent).toContain(
+      "Northwind Products",
     );
   });
 });

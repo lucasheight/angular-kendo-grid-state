@@ -1,24 +1,39 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import { Observable } from "rxjs";
 import {
   GridDataResult,
   DataStateChangeEvent,
+  GridComponent,
+  ColumnComponent,
+  CellTemplateDirective,
+  DetailTemplateDirective,
 } from "@progress/kendo-angular-grid";
 import { State, toODataString, groupBy } from "@progress/kendo-data-query";
 import { map } from "rxjs/operators";
 import { AppService } from "./app.service";
+import { GridStateDirective } from "projects/kendo-grid-state/src/public-api";
+import { AsyncPipe, JsonPipe } from "@angular/common";
 @Component({
   selector: "gridDirectiveCompoment",
   templateUrl: "./grid.directive.component.html",
-  standalone: false,
+  imports: [
+    GridComponent,
+    GridStateDirective,
+    ColumnComponent,
+    CellTemplateDirective,
+    DetailTemplateDirective,
+    AsyncPipe,
+    JsonPipe,
+  ],
 })
 export class GridDirectiveComponent implements OnInit {
+  private service = inject(AppService);
+
   title: string = "example grid";
   loading: boolean = false;
   gridState: State = { skip: 0, take: 10, group: [{ field: "SupplierID" }] };
   expandedRows: any[] = [];
   data$: Observable<GridDataResult>;
-  constructor(private service: AppService) {}
   onGotState = (e: DataStateChangeEvent): void => {
     this.onStateChange(e);
   };
