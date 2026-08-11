@@ -12,10 +12,11 @@ updates:
       angular:
         patterns:
           - "@angular/*"
-          - "@angular-devkit/*"
-          - "@angular-eslint/*"
           - "ng-packagr"
           - "zone.js"
+          # angular-eslint majors track Angular majors, so it has to move
+          # with this group rather than with lint-and-format.
+          - "angular-eslint"
       kendo:
         patterns:
           - "@progress/*"
@@ -23,7 +24,7 @@ updates:
         patterns:
           - "eslint"
           - "eslint-*"
-          - "@typescript-eslint/*"
+          - "typescript-eslint"
           - "prettier"
       test-tooling:
         patterns:
