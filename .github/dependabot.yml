@@ -34,3 +34,9 @@ updates:
       other:
         patterns:
           - "*"
+    ignore:
+      # Angular 22 pins typescript >=6.0 <6.1 via @angular/build,
+      # @angular/compiler-cli and ng-packagr; typescript-eslint pins <6.1.0.
+      # Drop this once Angular supports TypeScript 7.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
