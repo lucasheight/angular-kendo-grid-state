@@ -6,16 +6,16 @@
     "declaration": true,
     "inlineSources": true,
     "types": [],
-    "lib": [
-      "dom",
-      "es2022"
-    ]
+    "lib": ["dom", "es2022"]
   },
   "angularCompilerOptions": {
+    "extendedDiagnostics": {
+      "checks": {
+        "nullishCoalescingNotNullable": "suppress",
+        "optionalChainNotNullable": "suppress"
+      }
+    },
     "strictTemplates": true
   },
-  "exclude": [
-    "src/test.ts",
-    "**/*.spec.ts"
-  ]
+  "exclude": ["src/test.ts", "**/*.spec.ts"]
 }

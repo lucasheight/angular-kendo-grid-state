@@ -1,11 +1,14 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
+    // TypeScript 6 enables `strict` by default. The library's public API
+    // intentionally uses loose null typing (`state` is null until set, and
+    // callers guard with `&&`), so tightening it would change published type
+    // signatures. Kept off here; revisit as part of a 3.0.0.
+    "strict": false,
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
-    "downlevelIteration": true,
     "experimentalDecorators": true,
     "module": "ES2022",
     "moduleResolution": "bundler",
@@ -20,16 +23,22 @@
       "dom.iterable"
     ],
     "paths": {
+      // `baseUrl` is deprecated in TypeScript 6, so the workspace-relative
+      // imports it used to resolve (e.g. "projects/kendo-grid-state/...")
+      // are mapped explicitly instead.
+      "projects/*": [
+        "./projects/*"
+      ],
       "kendo-grid-state": [
-        "dist/kendo-grid-state/kendo-grid-state",
-        "dist/kendo-grid-state"
+        "./dist/kendo-grid-state/kendo-grid-state",
+        "./dist/kendo-grid-state"
       ],
       "kendo-grid-state/*": [
-        "dist/kendo-grid-state/*"
+        "./dist/kendo-grid-state/*"
       ],
       "test": [
-        "dist/test/test",
-        "dist/test"
+        "./dist/test/test",
+        "./dist/test"
       ]
     },
     "useDefineForClassFields": false

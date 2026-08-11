@@ -1,6 +1,6 @@
 {
   "name": "@lucasheight/kendo-grid-state",
-  "version": "2.0.0",
+  "version": "2.2.0",
   "description": "A helper library that implements a directive to manage grid state during session or between sessions for Progress Kendo UI for Angular Grid.",
   "keywords": [
     "angular",
@@ -24,9 +24,9 @@
     "url": "https://github.com/lucasheight"
   },
   "peerDependencies": {
-    "@angular/common": ">=14 <=21",
-    "@angular/core": ">=14 <=21",
-    "@progress/kendo-angular-grid": ">=4 <=23",
+    "@angular/common": ">=14 <=22",
+    "@angular/core": ">=14 <=22",
+    "@progress/kendo-angular-grid": ">=4 <=24",
     "@progress/kendo-data-query": ">=1 <2"
   },
   "dependencies": {
